@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import Currency from './Currency';
+import Flag from 'react-world-flags'
 
-const Base = 'https://api.exchangeratesapi.io/latest'
+
 
 
 
@@ -13,45 +14,30 @@ function App() {
   const [fromCur, setFromCur] = useState()
   const [toCur, setToCur] = useState()
   const [exRate, setExRate] = useState()
-  const [fromAmount, setFromAmount] = useState(1)
+  const [fromAmount, setFromAmount] = useState()
   const [toAmount, setToAmount] = useState()
 
-  function changeFromAmount(e) {
-    setFromAmount(e.target.value)
-    setToAmount(e.target.value*exRate)
-  }
-
-  function changeToAmount(e) {
-    setToAmount(e.target.value)
-    setFromAmount(e.target.value/exRate)
-  }
-
-  function buttonclick() {
-    console.log("hi");
-  }
-
   useEffect(() => {
-    fetch(Base)
+    fetch('http://localhost:5000/getCurList')
       .then(res => res.json())
       .then(data => {
-        setCurrencyOptions([data.base, ...Object.keys(data.rates)])
-        setFromCur(data.base)
-        setToCur(Object.keys(data.rates)[0])
-        setExRate(data.rates[Object.keys(data.rates)[0]])
-        setToAmount(data.rates[Object.keys(data.rates)[0]])
+        let el = []
+        data.forEach(element => {
+          el.push([element.currency_name, element.currency_abbreviation])
+        });
+        setCurrencyOptions(el)
       })
   }, [])
-
-  //CHANGE FROM CURRENCY
-  useEffect(() => {
-    if (fromCur != null && toCur != null) {
-      fetch(`${Base}?base=${fromCur}&symbols=${toCur}`)
-        .then(res => res.json())
-        .then(data => {setExRate(data.rates[toCur])
-                        setToAmount(fromAmount*data.rates[toCur])})
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fromCur, toCur])
+ 
+  function clickedButton() {
+    console.log('http://localhost:5000/getRate/'+fromAmount+'/'+fromCur+'/'+toCur)
+    fetch('http://localhost:5000/getRate/'+fromAmount+'/'+fromCur+'/'+toCur)
+      .then(res => res.json())
+      .then(data => {
+        setToAmount(data.amount_to)
+        setExRate(data.exchange_rate)
+      })
+  }
 
 
   return (
@@ -61,11 +47,14 @@ function App() {
         currencyOptions = {currencyOptions}
         selectedCurrency = {fromCur}
         onCurrencyChange = {e => setFromCur(e.target.value)}
+        onCurrencyChange2 = {e => setToCur(e.target.value)}
+        onAmountChange = {e => setFromAmount(e.target.value)}
         amount = {fromAmount}
-        onAmountChange = {changeFromAmount}
        />
-       <div><button onClick={buttonclick}>click</button></div>
-       <div><h3>{toAmount}</h3></div>
+       <div>=</div>
+       <h3>exchange rate: {exRate}</h3>
+       <h2>{toAmount}</h2>
+       <button onClick={clickedButton}>click</button>
        
        
     </>

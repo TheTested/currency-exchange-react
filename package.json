@@ -6,9 +6,13 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "currency-flags": "^2.1.2",
     "react": "^16.13.1",
+    "react-currency-flags": "^0.1.2",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
+    "react-world-flags": "^1.4.0",
+    "styled-components": "^5.1.1",
     "xml2js": "^0.4.23",
     "xmlhttprequest": "^1.8.0"
   },
