@@ -14,7 +14,7 @@ function App() {
   const [toCur, setToCur] = useState()
   const [exRate, setExRate] = useState()
   const [fromAmount, setFromAmount] = useState(1)
-  const [toAmount, setToAmount] = useState(0)
+  const [toAmount, setToAmount] = useState()
 
   function changeFromAmount(e) {
     setFromAmount(e.target.value)
@@ -24,6 +24,10 @@ function App() {
   function changeToAmount(e) {
     setToAmount(e.target.value)
     setFromAmount(e.target.value/exRate)
+  }
+
+  function buttonclick() {
+    console.log("hi");
   }
 
   useEffect(() => {
@@ -60,14 +64,10 @@ function App() {
         amount = {fromAmount}
         onAmountChange = {changeFromAmount}
        />
-       <div>=</div>
-       <Currency 
-        currencyOptions = {currencyOptions}
-        selectedCurrency = {toCur}
-        onCurrencyChange = {e => setToCur(e.target.value)}
-        amount = {toAmount}
-        onAmountChange = {changeToAmount}
-       />
+       <div><button onClick={buttonclick}>click</button></div>
+       <div><h3>{toAmount}</h3></div>
+       
+       
     </>
   );
 }
