@@ -36,7 +36,15 @@ function App() {
   }, [])
  
   function clickedButton() {
-    console.log('http://localhost:5000/getRate/'+fromAmount+'/'+fromCur+'/'+toCur)
+    if(fromAmount==null) {
+      window.alert("Select amount to convert");
+    } else if(fromCur==null) {
+      window.alert("Select currency to convert from");
+    } else if(toCur==null) {
+      window.alert("Select currency to convert to");
+    } else if(Math.sign(fromAmount)==-1) {
+      window.alert("Select positive amount");
+    } else {
     fetch('http://localhost:5000/getRate/'+fromAmount+'/'+fromCur+'/'+toCur)
       .then(res => res.json())
       .then(data => {
@@ -46,12 +54,14 @@ function App() {
         setFromCurr(fromCur)
         setToCurr(toCur)
       }).then(setShowResults(true))
+    }
   }
 
 
   return (
     <>
-       <h1>Convert</h1>
+    
+       <h1>Currency Converter</h1>
        <Currency 
         currencyOptions = {currencyOptions}
         selectedCurrency = {fromCur}
@@ -62,7 +72,7 @@ function App() {
        />
        
        
-       <button onClick={clickedButton}>click</button>
+       <button onClick={clickedButton}>Convert</button>
        { showResults ? <div class="answers"><div class="answerscont">
        <CurrencyAnswer 
           selectedCurrency = {fromCurr}
