@@ -7,6 +7,7 @@ const pool = require('./db');
 //middleware
 app.use(cors());
 app.use(express.json());
+
 const http = require('http');
 const xml2js = require('xml2js');
 const parser = new xml2js.Parser({ attrkey: "ATTR" });
@@ -112,8 +113,8 @@ app.get("/getRate/:amount_from/:currency_from/:currency_to", async (req,res1) =>
   try {
     const {amount_from, currency_from, currency_to} = req.params
     const curRate = await getExchange(currency_from, currency_to)
-    res1.json({"exchange_rate": curRate, "amount_to":amount_from*curRate})
-    userAct(currency_from, currency_to, amount_from, amount_from*curRate, curRate)
+    res1.json({"exchange_rate": curRate, "amount_to":(Math.round(amount_from*curRate * 100) / 100).toFixed(2)})
+    userAct(currency_from, currency_to, amount_from, (Math.round(amount_from*curRate * 100) / 100).toFixed(2), curRate)
   } catch (error) {
     console.error(error.message);
   }

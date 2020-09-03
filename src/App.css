@@ -20,7 +20,7 @@ h1 {
 }
 
 button {
-  margin-top: 1rem;
+  margin-top: 0rem;
 }
 
 select {
@@ -54,4 +54,28 @@ select {
 .currency-flag-xl {
   width: 48px;
   height: 32px;
+}
+
+.answerscont {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; 
+  column-gap: 12px;
+  background-color: antiquewhite;
+  justify-content: center;
+  align-items: center;
+}
+.answers {
+  display: flex;
+  flex-direction: column;
+  background-color: antiquewhite;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  padding: 1rem;
+  padding-bottom: 0;
+}
+
+.equals {
+  font-weight: bold;
+  font-size: 4rem;
 }
